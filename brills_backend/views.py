@@ -1,6 +1,6 @@
 from json import JSONDecodeError
 from django.http import JsonResponse
-from .serializers import ProfileSerializer, ExpenseSerializer
+from .serializers import ProfileSerializer, BillSerializer
 from rest_framework.parsers import JSONParser
 from rest_framework import views, status
 from rest_framework.response import Response
@@ -33,8 +33,8 @@ class ProfileAPIView(views.APIView):
 
 
 
-class ExpenseAPIView(views.APIView):
-    serializer_class = ExpenseSerializer
+class BillAPIView(views.APIView):
+    serializer_class = BillSerializer
 
     def get_serializer_context(self):
         return {
@@ -50,7 +50,7 @@ class ExpenseAPIView(views.APIView):
     def post(self, request):
         try:
             data = JSONParser().parse(request)
-            serializer = ExpenseSerializer(data=data)
+            serializer = BillSerializer(data=data)
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
                 return Response(serializer.data)
