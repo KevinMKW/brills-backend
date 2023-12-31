@@ -87,3 +87,4 @@ local_settings.py
 
 .env
 db.sqlite3
+brills_backend/migrations/0002_bill_profile_remove_userprofile_user_delete_expense_and_more.py
