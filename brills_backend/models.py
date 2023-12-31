@@ -17,7 +17,7 @@ class Profile(TimeStampedModel, ActivatorModel, Model):
     def __str__(self):
         return f"{self.name} - {self.currency}"
 
-class Expense(TitleDescriptionModel):
+class Expense(TitleDescriptionModel, Model):
     class Meta:
         verbose_name_plural = "Expences"
 
