@@ -19,7 +19,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 class BillSerializer(serializers.ModelSerializer):
     name = CharField(source="title", required=True)
-    description = CharField(source="description", required=True)
+    description = CharField(required=True)
     cost = DecimalField(max_digits=12, decimal_places=2, required=True)
     color = CharField(required=True)
 
