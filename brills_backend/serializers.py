@@ -1,15 +1,33 @@
-from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import UserProfile, Expense
+from rest_framework.fields import CharField, EmailField, DecimalField
+from .models import Profile, Expense
 
-class UserProfileSerializer(serializers.ModelSerializer):
-    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+class ProfileSerializer(serializers.ModelSerializer):
+    name = CharField(required=True)
+    email = EmailField(required=True)
+    income = DecimalField(required=True)
+    currency = CharField(required=True)
+    color = CharField(required=True)
 
     class Meta:
-        model = UserProfile
-        fields = '__all__'
+        model = Profile
+        fields = (
+            'name',
+            'email',
+            'income',
+            'currency',
+            'color'
+        )
 
 class ExpenseSerializer(serializers.ModelSerializer):
+    name = CharField(source="title", required=True)
+    description = CharField(source="description", required=True)
+    cost = DecimalField(required=True)
+
     class Meta:
         model = Expense
-        fields = '__all__'
+        fields = (
+            'name',
+            'description',
+            'cost'
+        )
