@@ -1,7 +1,7 @@
 from django.urls import path
-from .views import UserProfileList, ExpenseList
+from .views import ProfileAPIView, ExpenseAPIView
 
 urlpatterns = [
-    path('/user-profiles/', UserProfileList.as_view(), name='user-profile-list'),
-    path('/expenses/', ExpenseList.as_view(), name='expense-list'),
+    path('profile/', ProfileAPIView.as_view()),
+    path('expenses/', ExpenseAPIView.as_view()),
 ]
