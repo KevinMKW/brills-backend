@@ -18,7 +18,7 @@ class Profile(TimeStampedModel, ActivatorModel, Model):
 
 class Bill(TitleDescriptionModel, Model):
     class Meta:
-        verbose_name_plural = "Expences"
+        verbose_name_plural = "Bills"
 
     cost = models.DecimalField(max_digits=10, decimal_places=2)
     color = models.CharField(max_length=7, null=True, blank=True, help_text="Hex color code, e.g., #RRGGBB")
