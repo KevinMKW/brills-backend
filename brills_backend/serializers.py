@@ -11,6 +11,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = (
+            'id'
             'name',
             'email',
             'income',
@@ -26,6 +27,7 @@ class BillSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bill
         fields = (
+            'id',
             'name',
             'description',
             'cost',
