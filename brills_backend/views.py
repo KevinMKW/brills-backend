@@ -41,8 +41,8 @@ def billCreate(req):
 
 @api_view(['POST'])
 def billUpdate(req, pk):
-    bill = Bill.objects.get(id=pk)
-    serializer = BillSerializer(instance=bill, data=req.data)
+    bill = Profile.objects.get(id=pk)
+    serializer = ProfileSerializer(instance=bill, data=req.data)
 
     if serializer.is_valid():
         serializer.save()
@@ -51,7 +51,46 @@ def billUpdate(req, pk):
 
 @api_view(['DELETE'])
 def billDelete(req, pk):
-    bill = Bill.objects.get(id=pk)
+    bill = Profile.objects.get(id=pk)
     bill.delete()
+
+    return Response('Item  successfully deleted!') 
+
+
+@api_view(['GET'])
+def profileList(req):
+    profiles = Profile.objects.all()
+    serializer = ProfileSerializer(profiles, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def profileDetails(req, pk):
+    profile = Profile.objects.get(id=pk)
+    serializer = ProfileSerializer(profile, many=False)
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def profileCreate(req):
+    serializer = ProfileSerializer(data=req.data)
+
+    if serializer.is_valid():
+        serializer.save()
+
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def profileUpdate(req, pk):
+    profile = Profile.objects.get(id=pk)
+    serializer = ProfileSerializer(instance=profile, data=req.data)
+
+    if serializer.is_valid():
+        serializer.save()
+
+    return Response(serializer.data)
+
+@api_view(['DELETE'])
+def profileDelete(req, pk):
+    profile = Profile.objects.get(id=pk)
+    profile.delete()
 
     return Response('Item  successfully deleted!') 
