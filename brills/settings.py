@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'django_filters', 
     'rest_framework', 
     'brills_backend',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -43,6 +44,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corshearders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'brills.urls'
