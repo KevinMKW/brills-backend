@@ -39,10 +39,10 @@ def billCreate(req):
 
     return Response(serializer.data)
 
-@api_view(['POST'])
+@api_view(['PUT'])
 def billUpdate(req, pk):
-    bill = Profile.objects.get(id=pk)
-    serializer = ProfileSerializer(instance=bill, data=req.data)
+    bill = Bill.objects.get(id=pk)
+    serializer = BillSerializer(instance=bill, data=req.data)
 
     if serializer.is_valid():
         serializer.save()
@@ -51,7 +51,7 @@ def billUpdate(req, pk):
 
 @api_view(['DELETE'])
 def billDelete(req, pk):
-    bill = Profile.objects.get(id=pk)
+    bill = Bill.objects.get(id=pk)
     bill.delete()
 
     return Response('Item  successfully deleted!') 
@@ -78,7 +78,7 @@ def profileCreate(req):
 
     return Response(serializer.data)
 
-@api_view(['POST'])
+@api_view(['PUT'])
 def profileUpdate(req, pk):
     profile = Profile.objects.get(id=pk)
     serializer = ProfileSerializer(instance=profile, data=req.data)
