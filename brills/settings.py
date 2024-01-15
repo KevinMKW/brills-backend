@@ -17,7 +17,7 @@ SECRET_KEY = 'django-insecure-5a1q7znmk=#8&6#1k9+2+958%!5(sw2#$bu!tsnw_2s=lpm3ps
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', 'keinmuriuki.pythonanywhere.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'keinmuriuki.pythonanywhere.com']
 
 # ADD the origin of your React app
 # CORS_ALLOWED_ORIGINS = [
