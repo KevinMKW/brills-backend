@@ -1,9 +1,17 @@
 from django.urls import path
-from .views import ProfileAPIView, Profile, BillAPIView, Bill
+from . import views
 
 urlpatterns = [
-    path('profile/', ProfileAPIView.as_view()),
-    path('profile/<uuid:pk>/', Profile.as_view()),
-    path('bill/', BillAPIView.as_view()),
-    path('bill/<uuid:pk>/', Bill.as_view()),
+    path('', views.apiOverview, name="api-overview"),
+    path('bills/', views.billList, name="bills"),
+    path('bill-details/<str:pk>/', views.billDetails, name="bill-details"),
+    path('bill-create/', views.billCreate, name="bill-create"),
+    path('bill-update/<str:pk>/', views.billUpdate, name="bill-update"),
+    path('bill-delete/<str:pk>/', views.billDelete, name="bill-delete"),
+
+    path('profiles/', views.profileList, name="profiles"),
+    path('profile-details/<str:pk>/', views.profileDetails, name="profile-details"),
+    path('profile-create/', views.profileCreate, name="profile-create"),
+    path('profile-update/<str:pk>/', views.profileUpdate, name="profile-update"),
+    path('profile-delete/<str:pk>/', views.profileDelete, name="profile-delete"),
 ]
