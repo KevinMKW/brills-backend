@@ -18,6 +18,14 @@ class ProfileSerializer(serializers.ModelSerializer):
             'currency'
         )
 
+    def create(self, validated_data):
+        email = validated_data.pop('email')
+        profile_instance = Profile.objects.create(**validated_data)
+        profile_instance.email = email
+        profile_instance.save()
+
+        return profile_instance
+
 class BillSerializer(serializers.ModelSerializer):
     name = CharField(source="title", required=True)
     description = CharField(required=True)
