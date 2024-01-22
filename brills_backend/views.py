@@ -1,22 +1,26 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+from django.urls import reverse
 
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import ProfileSerializer, BillSerializer
 from .models import Profile, Bill
+from .supabase_utils import send_magic_link
 
 @api_view(['GET'])
 def apiOverview(req):
     api_urls = {
-        'list': '/bills/',
-        'Detail View': '/bill-details/<str:pk>/',
-        'Create': '/bill-create/',
-        'Update': '/bill-update/<str:pk>/',
-        'Delete': '/bill-delete/<str:pk>/',
+        'list': reverse('bill_list'),
+        'Detail View': reverse('bill_details', args=['<str:pk>']),
+        'Create': reverse('bill_create'),
+        'Update': reverse('bill_update', args=['<str:pk>']),
+        'Delete': reverse('bill_delete', args=['<str:pk>']),
+        'Magic Link': reverse('send_magic_link_view'),
     }
 
-    return Response(api_urls)
+    return Response(api_urls, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 def billList(req):
@@ -36,8 +40,9 @@ def billCreate(req):
 
     if serializer.is_valid():
         serializer.save()
-
-    return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['PUT'])
 def billUpdate(req, pk):
@@ -46,15 +51,16 @@ def billUpdate(req, pk):
 
     if serializer.is_valid():
         serializer.save()
-
-    return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['DELETE'])
 def billDelete(req, pk):
     bill = Bill.objects.get(id=pk)
     bill.delete()
 
-    return Response('Item  successfully deleted!') 
+    return Response('Item successfully deleted!', status=status.HTTP_204_NO_CONTENT) 
 
 
 @api_view(['GET'])
@@ -75,8 +81,9 @@ def profileCreate(req):
 
     if serializer.is_valid():
         serializer.save()
-
-    return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['PUT'])
 def profileUpdate(req, pk):
@@ -85,12 +92,31 @@ def profileUpdate(req, pk):
 
     if serializer.is_valid():
         serializer.save()
-
-    return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['DELETE'])
 def profileDelete(req, pk):
     profile = Profile.objects.get(id=pk)
     profile.delete()
 
-    return Response('Item  successfully deleted!') 
+    return Response('Item successfully deleted!', status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['POST'])
+def send_magic_link_view(request):
+    if request.method == 'POST':
+        email = request.data.get('email')
+        magic_link = send_magic_link(email)
+
+        profile_data = {'email': email}
+        profile_serializer = ProfileSerializer(data=profile_data)
+
+        if profile_serializer.is_valid():
+            profile_serializer.save()
+
+            return JsonResponse({'magic_link': magic_link, 'profile_id': profile_serializer.data['id']}, status=status.HTTP_201_CREATED)
+        else:
+            return Response(profile_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=400)

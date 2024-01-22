@@ -14,4 +14,5 @@ urlpatterns = [
     path('profile-create/', views.profileCreate, name="profile-create"),
     path('profile-update/<str:pk>/', views.profileUpdate, name="profile-update"),
     path('profile-delete/<str:pk>/', views.profileDelete, name="profile-delete"),
+    path('send-magic-link/', views.send_magic_link_view, name='send_magic_link_view'),
 ]
