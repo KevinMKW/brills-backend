@@ -8,7 +8,7 @@ class Profile(TimeStampedModel, ActivatorModel, Model):
         verbose_name_plural = "Profiles"
 
     name = models.CharField(max_length=255)
-    email = models.EmailField()
+    email = models.EmailField(unique=True)
     income = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
     currency = models.CharField(max_length=10, null=True, blank=True)
 
